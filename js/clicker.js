@@ -1,6 +1,6 @@
 /* Med document.queryselector(selector) kan vi hämta
  * de element som vi behöver från html dokumentet.
- * Vi spearar elementen i const variabler då vi inte kommer att
+ * Vi sparar elementen i const variabler då vi inte kommer att
  * ändra dess värden.
  * Läs mer:
  * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const
@@ -136,7 +136,7 @@ function step(timestamp) {
     window.requestAnimationFrame(step);
 }
 
-/* Här använder vi en listener igen. Den här gången så lyssnar iv efter window
+/* Här använder vi en listener igen. Den här gången så lyssnar vi efter window
  * objeket och när det har laddat färdigt webbsidan(omvandlat html till dom)
  * När detta har skett så skapar vi listan med upgrades, för detta använder vi
  * en forEach loop. För varje element i arrayen upgrades så körs metoden upgradeList

@@ -3,7 +3,7 @@
 
 :root {
     --color-lighter: hsl(80, 10%, 90%);
-    --color-light: hsl(80, 10%, 80%);
+    --color-light: hsl(34, 100%, 89%);
     --color-dark: hsl(360, 10%, 10%);
     --color-dark-transparent: hsla(360, 10%, 10%, 0.2);
 
@@ -141,18 +141,21 @@ audio {
     width: var(--space-4xl-5xl);
     height: var(--space-4xl-5xl);
     font-size: var(--step-2);
-    background: url('../img/brett-meliti-RgkYMfFopIA-unsplash-removebg-preview.png');
+    background: url('../img/Apelsin.png');
     background-size: cover;
-    background-position: center;
     border: 2px solid transparent;
     color: var(--color-light);
     text-transform: uppercase;
     font-weight: 700;
     cursor: pointer;
+    position: absolute;
+    .open_hand {
+        color: aqua;
+    }
 }
 
 #game-button:hover {
-    border-color: var(--color-dark-transparent);
+    background-color: var(--color-dark-transparent);
 }
 
 #game-button:active {
