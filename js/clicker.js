@@ -16,7 +16,7 @@ const upgradesTracker = document.querySelector('#upgrades');
 const upgradeList = document.querySelector('#upgradelist');
 const msgbox = document.querySelector('#msgbox');
 const audioAchievement = document.querySelector('#swoosh');
-const skins = ['/img/Apelsin.png', '/img/Sten.png', '/img/Drakfrukt.png', '/img/Oliv.png', '/img/Banan.png', '/img/Apple.png', '/img/Passionfrukt.png', '/img/Vindruvor.png', '/img/Borgir.png'];
+const skins = ['img/Apelsin.png', 'img/Sten.png', 'img/Drakfrukt.png', 'img/Oliv.png', 'img/Banan.png', 'img/Apple.png', 'img/Passionfrukt.png', 'img/Vindruvor.png', 'img/Borgir.png'];
 
 function playsound() {
     audioAchievement.load();
