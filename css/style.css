@@ -141,26 +141,32 @@ audio {
     width: var(--space-4xl-5xl);
     height: var(--space-4xl-5xl);
     font-size: var(--step-2);
-    background: url('../img/Apelsin.png');
-    background-size: cover;
-    border: 2px solid transparent;
-    color: var(--color-light);
+    background-color: rgba(0, 0, 0, 0);
+    border: 0;
     text-transform: uppercase;
     font-weight: 700;
     cursor: pointer;
+}
+
+#skin-button {
+    margin-left: 50%;
+    background: url('../img/Fruit\ Basket.png');
+    background-size: cover;
+    width: var(--space-4xl-5xl);
+    height: var(--space-4xl-5xl);
+    border: 2px solid transparent;
+}
+
+#skin-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#buttonImg {
     position: absolute;
-    .open_hand {
-        color: aqua;
-    }
-}
-
-#game-button:hover {
-    background-color: var(--color-dark-transparent);
-}
-
-#game-button:active {
-    border-color: var(--color-dark);
-    background-color: var(--color-dark-transparent);
+    margin-top: -930px;
+    margin-left: 0vw;
+    width: 735px;
+    z-index:-1;
 }
 
 /* #msgbox är elementet som visar sidans toasts, popupmeddelanden
@@ -238,4 +244,17 @@ audio {
 
 .active {
     animation: flash 1s infinite;
+}
+
+.d-none {
+    display: none;
+}
+
+#skins {
+    src: url("/img/Apelsin.png");
+}
+
+#skin-button {
+    color: white;
+    font-size: 2rem;
 }

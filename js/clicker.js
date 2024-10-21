@@ -8,6 +8,7 @@
  * Viktigt: queryselector ger oss ett html element eller flera om det finns.
  */
 const clickerButton = document.querySelector('#game-button');
+const skinButton = document.querySelector('#skin-button')
 const moneyTracker = document.querySelector('#money');
 const mpsTracker = document.querySelector('#mps'); // money per second
 const mpcTracker = document.querySelector('#mpc'); // money per click
@@ -15,6 +16,12 @@ const upgradesTracker = document.querySelector('#upgrades');
 const upgradeList = document.querySelector('#upgradelist');
 const msgbox = document.querySelector('#msgbox');
 const audioAchievement = document.querySelector('#swoosh');
+const skins = ['/img/Apelsin.png', '/img/Sten.png', '/img/Drakfrukt.png', '/img/Oliv.png', '/img/Banan.png', '/img/Apple.png', '/img/Passionfrukt.png', '/img/Vindruvor.png', '/img/Borgir.png'];
+
+function playsound() {
+    audioAchievement.load();
+    audioAchievement.play();
+}
 
 /* Följande variabler använder vi för att hålla reda på hur mycket pengar som
  * spelaren, har och tjänar.
@@ -27,9 +34,11 @@ let money = 0;
 let moneyPerClick = 1;
 let moneyPerSecond = 0;
 let acquiredUpgrades = 0;
+let numberOfSkins = 0;
 let last = 0;
 let numberOfClicks = 0; // hur många gånger har spelare eg. klickat
 let active = false; // exempel för att visa att du kan lägga till klass för att indikera att spelare får valuta
+let img = document.querySelector("#buttonImg");
 
 // likt upgrades skapas här en array med objekt som innehåller olika former
 // av achievements.
@@ -37,25 +46,40 @@ let active = false; // exempel för att visa att du kan lägga till klass för a
 
 let achievements = [
     {
-        description: 'Museet är redo att öppna, grattis! ',
+        description: 'Mer juice till oss alla! ',
         requiredUpgrades: 1,
         acquired: false,
     },
     {
-        description: 'Nu börjar det likna något, fortsätt gräva!',
+        description: 'Inte självsäker i ditt egna skal?',
+        requiredSkins: 1,
+        acquired: false,
+    },
+    {
+        description: 'Fruktsallad!',
+        requiredSkins: 10,
+        acquired: false,
+    },
+    {
+        description: "Skal samlare!",
+        requiredSkins: 100,
+        acquired: false,
+    },
+    {
+        description: 'Ännu mer juice!',
         requiredUpgrades: 10,
         acquired: false,
     },
     {
-        description: 'Klickare, med licens att klicka!',
+        description: 'Squishare, med licens att squisha!',
         requiredClicks: 10,
         acquired: false,
     },
     {
-        description: 'Tac-2 god!',
+        description: 'Världs mästare i squishning!',
         requiredClicks: 10000,
         acquired: false,
-    },
+    }
 ];
 
 /* Med ett valt element, som knappen i detta fall så kan vi skapa listeners
@@ -68,17 +92,45 @@ let achievements = [
  * money.
  * Läs mer: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener
  */
-clickerButton.addEventListener(
-    'click',
-    () => {
-        // vid click öka score med moneyPerClick
-        money += moneyPerClick;
-        // håll koll på hur många gånger spelaren klickat
-        numberOfClicks += 1;
-        // console.log(clicker.score);
-    },
-    false
-);
+clickerButton.addEventListener('click', () => {
+    // vid click öka score med moneyPerClick
+    money += moneyPerClick;
+    // håll koll på hur många gånger spelaren klickat
+    numberOfClicks += 1;
+    // console.log(clicker.score);
+    playsound();
+});
+
+const bild = clickerButton.querySelector("img");
+clickerButton.addEventListener("mousedown", () => {
+    img.src = "img/Closed_Hand.png";
+    bild.classList.toggle("d-none");
+});
+
+clickerButton.addEventListener("mouseup", () => {
+    img.src = "img/Open_Hand.png";
+    bild.classList.toggle("d-none");
+});
+/*
+ * Byt frukt för en liten summa pengar.
+*/
+const skinSRC = clickerButton.querySelector("#skins");
+skinButton.addEventListener('click', () => {
+    if(money >= 50) {
+        money -= 50;
+        numberOfSkins += 1;
+        let currentSkin = Math.floor(Math.random() * (skins.length - 0.01));
+        if (skins[currentSkin] === bild.getAttribute("src")) {
+            currentSkin = Math.floor(Math.random() * (skins.length - 0.01));
+            bild.setAttribute("src", skins[currentSkin]);
+            console.log(skins[currentSkin]);
+        } else {
+            bild.setAttribute("src", skins[currentSkin]);
+            console.log(skins[currentSkin]);
+        }
+    }
+});
+
 
 /* För att driva klicker spelet så kommer vi att använda oss av en metod som heter
  * requestAnimationFrame.
@@ -129,6 +181,13 @@ function step(timestamp) {
             achievement.acquired = true;
             message(achievement.description, 'achievement');
             return false;
+        } else if (
+            achievement.requiredSkins &&
+            numberOfSkins >= achievement.requiredSkins
+        ) {
+            achievement.acquired = true;
+            message(achievement.description, 'achievement');
+            return false;
         }
         return true;
     });
@@ -163,22 +222,22 @@ window.addEventListener('load', (event) => {
  */
 upgrades = [
     {
-        name: 'Sop',
+        name: 'Automatisk Squishare',
         cost: 10,
         amount: 1,
     },
     {
-        name: 'Kvalitetsspade',
+        name: 'Handgreppsförstärkare',
         cost: 50,
         clicks: 2,
     },
     {
-        name: 'Skottkärra',
+        name: 'Squish Kompisar',
         cost: 100,
         amount: 10,
     },
     {
-        name: 'Grävmaskin',
+        name: 'Squish Fabriken',
         cost: 1000,
         amount: 100,
     },
@@ -209,18 +268,18 @@ function createCard(upgrade) {
     header.classList.add('title');
     const cost = document.createElement('p');
     if (upgrade.amount) {
-        header.textContent = `${upgrade.name}, +${upgrade.amount} per sekund.`;
+        header.textContent = `${upgrade.name}, +${upgrade.amount} Per Sekund.`;
     } else {
-        header.textContent = `${upgrade.name}, +${upgrade.clicks} per klick.`;
+        header.textContent = `${upgrade.name}, +${upgrade.clicks} Per Klick.`;
     }
-    cost.textContent = `Köp för ${upgrade.cost} benbitar.`;
+    cost.textContent = `Köp För ${upgrade.cost} Juice.`;
 
     card.addEventListener('click', (e) => {
         if (money >= upgrade.cost) {
             acquiredUpgrades++;
             money -= upgrade.cost;
             upgrade.cost *= 1.5;
-            cost.textContent = 'Köp för ' + upgrade.cost + ' benbitar';
+            cost.textContent = 'Köp För ' + upgrade.cost + ' Juice';
             moneyPerSecond += upgrade.amount ? upgrade.amount : 0;
             moneyPerClick += upgrade.clicks ? upgrade.clicks : 0;
             message('Grattis du har köpt en uppgradering!', 'success');
@@ -247,7 +306,7 @@ function message(text, type) {
     p.textContent = text;
     msgbox.appendChild(p);
     if (type === 'achievement') {
-        audioAchievement.play();
+        playsound();
     }
     setTimeout(() => {
         p.parentNode.removeChild(p);
