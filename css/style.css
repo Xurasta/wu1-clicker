@@ -251,7 +251,7 @@ audio {
 }
 
 #skins {
-    src: url("/img/Apelsin.png");
+    src: url("img/Apelsin.png");
 }
 
 #skin-button {
